@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Bí mật 8/3 ❤️</title>
+<style>
+
+#firework{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:9999;
+}
+/* ===================================== */
+/*        PHONG BÌ MỞ CINEMATIC          */
+/* ===================================== */
+.close-btn{
+    position:absolute;
+    margin-top:15px;
+    padding:8px 18px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d88;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.close-btn:hover{
+    transform:scale(1.1);
+    background:#ff2e6e;
+}
+/* ===== POPUP OVERLAY ===== */
+.letter-popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.75);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:10;
+}
+
+/* ===== BIẾN MÀU 8/3 ===== */
+:root{
+    --primary: #fff;
+    --bg-envelope-color: #ffe4ec;
+    --envelope-tab: #ff8fb1;
+    --envelope-cover: #ff6b9c;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --txt-color: #444;
+    --heart-color: #ff2e88;
+}
+
+/* ===== ENVELOPE WRAPPER ===== */
+.envelope-wrapper{
+    position:relative;
+    background: var(--bg-envelope-color);
+    box-shadow: 0 0 40px var(--shadow-color);
+    border-radius:10px;
+    padding:20px;
+    transition:transform 0.6s ease;
+    perspective:1000px; 
+}
+
+/* zoom nhẹ khi mở */
+.flap{
+    transform:scale(1.05);
+}
+
+/* ===== ENVELOPE ===== */
+.envelope{
+    position: relative;
+    width: 320px;
+    height: 230px;
+    perspective: 1000px;
+}
+
+/* NẮP PHONG BÌ */
+.envelope::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left:0;
+    z-index: 3;
+
+    border-top: 130px solid var(--envelope-tab);
+    border-right: 160px solid transparent;
+    border-left: 160px solid transparent;
+
+    transform-origin: top;
+    transition: transform 0.6s ease-in-out;
+}
+
+/* THÂN PHONG BÌ */
+.envelope::after{
+    content: "";
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    border-top: 130px solid transparent;
+    border-right: 160px solid var(--envelope-cover);
+    border-bottom: 100px solid var(--envelope-cover);
+    border-left: 160px solid var(--envelope-cover);
+}
+
+/* GIẤY THƯ */
+.letter{
+    position:absolute;
+    left:50%;
+    bottom:10px;
+    transform:translateX(-50%);
+    width:70%;
+    height:80%;
+    text-align:center;
+    background:var(--primary);
+    padding:20px;
+    border-radius:8px;
+    box-shadow:0 15px 30px rgba(0,0,0,0.3);
+    transition: all 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    z-index: 2;
+}
+
+/* TEXT */
+.letter .text{
+    font-family: Arial, sans-serif;
+    color: var(--txt-color);
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* KHI MỞ PHONG BÌ */
+.open .envelope::before{
+    transform: rotateX(180deg);
+}
+
+
+/* HEART */
+.heart{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 20px;
+    height: 20px;
+    background: var(--heart-color);
+
+    transform: translate(-50%, -25%) rotate(-45deg);
+
+    cursor: pointer;
+    z-index: 5;
+
+    transition: transform 0.4s;
+}
+
+.heart::before,
+.heart::after{
+    content: "";
+    position: absolute;
+
+    width: 20px;
+    height: 20px;
+
+    background: var(--heart-color);
+    border-radius: 50%;
+}
+
+.heart::before{
+    top: -10px;
+    left: 0;
+}
+
+.heart::after{
+    left: 10px;
+    top: 0;
+}
+/* ===== OPEN ANIMATION ===== */
+.flap .envelope::before{
+    transform: rotateX(180deg);
+    z-index: 0;
+}
+.flap .letter{
+    bottom: 75px;
+    transform: translateX(-50%) scale(1.4);
+    z-index: 10;
+}
+.flap .heart{
+    transform: rotate(45deg);
+}
+#loveCounter{
+    margin-top:20px;
+    font-size:22px;
+    font-weight:bold;
+    background:rgba(255,255,255,0.2);
+    padding:10px 20px;
+    border-radius:20px;
+    display:inline-block;
+    backdrop-filter: blur(5px);
+}
+#intro{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    overflow:hidden;
+}
+
+#introText{
+    font-size:40px;
+    letter-spacing:3px;
+    color:white;
+    text-shadow:0 0 20px #ff4d88;
+    opacity:0;
+    transform:scale(0.8);
+    animation: introFade 2s ease forwards;
+}
+
+@keyframes introFade{
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.fade-out{
+    animation: fadeOut 1.5s ease forwards;
+}
+
+@keyframes fadeOut{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+@keyframes bgFlashRed {
+    0%   { background:#ff1a1a; }
+    50%  { background:#990000; }
+    100% { background:#ff1a1a; }
+}
+
+@keyframes bgFlashGreen {
+    0%   { background:#00cc66; }
+    50%  { background:#00994d; }
+    100% { background:#00cc66; }
+}
+
+.bg-error{
+    animation: bgFlashRed 0.4s linear infinite;
+}
+
+.bg-success{
+    animation: bgFlashGreen 0.5s linear infinite;
+}
+.image-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap:25px;
+}
+
+.image-grid img{
+    width:200px;
+    height:200px;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+.celebrate-wrapper{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:60px;
+    max-width:1200px;
+    margin:auto;
+}
+
+.video-love{
+    width:350px;      /* to hơn */
+    height:500px;     /* cố định chiều cao */
+    object-fit:cover;
+    border-radius:20px;
+}
+.love-text{
+    max-width:350px;
+    text-align:center;
+}
+.love-img{
+    width:250px;
+    border-radius:15px;
+}
+
+
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    text-align:center;
+    color:white;
+    overflow-x:hidden;
+
+    background: linear-gradient(-45deg,#ff4e8a,#ff6ec4,#7873f5,#4ade80);
+    background-size: 300% 300%;
+    background-repeat:no-repeat;
+
+    animation: gradientMove 15s ease infinite;
+}
+
+@keyframes gradientMove{
+    0%{
+        background-position:0% 50%;
+    }
+    50%{
+        background-position:100% 50%;
+    }
+    100%{
+        background-position:0% 50%;
+    }
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.25), transparent 45%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.18), transparent 45%);
+
+    pointer-events:none;
+}
+.main-title{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:15px 0;
+    font-size:24px;
+    font-weight:bold;
+    letter-spacing:2px;
+    background:rgba(0,0,0,0.3);
+    backdrop-filter:blur(8px);
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+    z-index:1000;
+}
+#viewLetterBtn{
+position:fixed;
+top:120px;   /* nằm dưới nút nhạc */
+right:20px;
+z-index:2000;
+
+background:#ff4d88;
+color:white;
+
+padding:10px 15px;
+border-radius:20px;
+border:none;
+
+font-weight:bold;
+cursor:pointer;
+
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+transition:0.3s;
+}
+
+#viewLetterBtn:hover{
+transform:scale(1.08);
+background:#ff2e6e;
+}
+
+
+@keyframes flashRed {
+    0% { background-color:#ff4d4d; box-shadow:0 0 15px red; }
+    50% { background-color:white; }
+    100% { background-color:#ff4d4d; box-shadow:0 0 15px red; }
+}
+
+@keyframes flashGreen {
+    0% { background-color:#4CAF50; box-shadow:0 0 20px #00ff88; }
+    100% { background-color:white; }
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.error-effect{
+    animation: flashRed 0.4s ease-in-out 3, shake 0.4s;
+}
+
+.success-effect{
+    animation: flashGreen 0.6s ease-in-out 1;
+}
+.container{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:100px 20px 40px 20px; 
+}
+input, select{
+    padding:10px;
+    border:none;
+    border-radius:20px;
+    margin:10px;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:white;
+    color:#ff4b5c;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.hidden{
+    display:none;
+}
+
+#celebrate{
+    animation:fadeIn 2s ease-in-out;
+}
+
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+.floating-heart{
+    position:absolute;
+    color:red;
+    animation:floatUp 4s linear infinite;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(0); opacity:1;}
+    to{transform:translateY(-800px); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+<div id="intro">
+    <h1 id="introText"></h1>
+</div>
+<canvas id="firework"></canvas>
+<header class="main-title">
+     8/3 💖
+</header>
+
+<!-- BƯỚC 1 -->
+<div class="container" id="step1">
+    <h2>Nhập đúng tên của bạn để tiếp tục ( viết hoa có dấu)</h2>
+    <input type="text" id="nameInput" placeholder="Nhập tên ở đây">
+    <button onclick="checkName()">Tiếp tục</button>
+    <p id="error1" style="color:yellow;"></p>
+<button id="aBtn" class="hidden" onclick="goToCheckSelect()">
+       Chuyển qua bảo mật bước 2(nhấn vào đây )
+    </button>
+
+</div>
+
+<!-- BƯỚC 2 -->
+<div class="container hidden" id="step2">
+    <h2>Ai là người đẹp trai nhất thế giới? </h2>
+
+    <select id="selectOption">
+        <option value="">-- Chọn đi  --</option>
+        <option value="idol">Hứa Quang Hán</option>
+        <option value="crush">Hồng Tỷ</option>
+        <option value="khac">Tèo đẹp trai nhất thế giới</option>
+        <option value="ban">Vẫn là Tèo nhưng mà bụi đời hơn</option>
+    </select>
+
+    <br><br>
+
+    <button onclick="checkSelect()">Xác nhận</button>
+    <p id="error2" style="color:green;"></p>
+<img id="resultImage" src="" style="width:200px; display:none; margin-top:15px; border-radius:15px;">
+ <br>
+    <button id="continueBtn" class="hidden" onclick="goToCelebrate()">
+       Chúc mừng em chính là người được chọn !(nhấn vào đây )
+    </button>
+</div>
+
+<!-- CHÚC MỪNG -->
+<div class="container hidden" id="celebrate">
+    
+    <div class="celebrate-wrapper">
+        
+        <!-- VIDEO -->
+        <video controls class="video-love">
+            <source src="./image/teo.mp4" type="video/mp4">
+        </video>
+
+        <!-- TEXT -->
+        <div class="love-text">
+            <h1>Happy 8/3 💐</h1>
+            <p>
+                Chúc em yêu mãi mãi xinh đẹp ❤️ <br>
+                khạc khạc khạc
+            </p>
+<div id="loveCounter">
+    ❤️ Chúng ta đã bên nhau: <span id="timeTogether"></span>
+</div>
+
+<button onclick="openLetterAgain()" id="viewLetterBtn">
+💌 Xem thư lại 
+</button>
+        <div class="image-grid">
+        <!-- ẢNH -->
+        <img src="./image/meo.jpg" class="love-img">
+        <img src="./image/meo2.jpg" class="love-img">
+        <img src="./image/meo3.jpg" class="love-img">
+        <img src="./image/meo4.jpg" class="love-img">
+        <img src="./image/meo5.jpg" class="love-img">
+        <img src="./image/meo6.jpg" class="love-img">
+    </div>
+
+</div>
+<script>
+
+// ======= SỬA TÊN Ở ĐÂY =======
+const TEN_CO_AY = "A";     
+const TEN_CUA_BAN = "Tèo";   
+// ==============================
+
+
+// Kiểm tra tên
+function checkName(){
+    const inputBox = document.getElementById("nameInput");
+    const input = inputBox.value.trim();
+
+    if(input === TEN_CO_AY){
+
+        // hiệu ứng input
+        inputBox.classList.add("success-effect");
+        // nền xanh 1.5s
+        document.body.classList.add("bg-success");
+
+        setTimeout(()=>{
+            inputBox.classList.remove("success-effect");
+            document.body.classList.remove("bg-success");
+  	    document.getElementById("aBtn").classList.remove("hidden");
+
+        },1500);
+
+    }else{
+
+        document.getElementById("error1").innerText = "That's not ma lil girl !";
+
+        inputBox.classList.add("error-effect");
+
+        // nền đỏ 2s
+        document.body.classList.add("bg-error");
+
+        setTimeout(()=>{
+            inputBox.classList.remove("error-effect");
+            document.body.classList.remove("bg-error");
+        },2000);
+    }
+}
+function goToCelebrate(){
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("celebrate").classList.remove("hidden");
+
+    startHearts();
+
+    // bật popup thư
+    document.getElementById("letterPopup").classList.remove("hidden");
+
+    // phát nhạc
+    const music = document.getElementById("bgMusic");
+    music.play();
+}function goToCheckSelect(){
+     document.getElementById("step1").classList.add("hidden");
+ document.getElementById("step2").classList.remove("hidden");
+checkSelect();
+}
+function updateLoveTime(){
+
+    const startDate = new Date("2022-10-24 12:10:00"); // sửa ngày bắt đầu yêu
+
+    const now = new Date();
+
+    const diff = now - startDate;
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff / (1000*60*60)) % 24);
+    const minutes = Math.floor((diff / (1000*60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("timeTogether").innerHTML =
+        days + " ngày " +
+        hours + " giờ " +
+        minutes + " phút " +
+        seconds + " giây";
+}
+
+setInterval(updateLoveTime,1000);
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const heartBtn = document.querySelector(".heart");
+
+    heartBtn.addEventListener("click", function(e){
+
+        e.stopPropagation();
+
+        const envelope = heartBtn.closest(".envelope-wrapper");
+
+        envelope.classList.toggle("flap");
+
+        if(envelope.classList.contains("flap")){
+            startFirework();   // mở thư
+        }else{
+            stopFirework();    // đóng thư
+        }
+
+    });
+
+});// Kiểm tra chọn đáp án
+function checkSelect(){
+    const continueBtn = document.getElementById("continueBtn");
+    const value = document.getElementById("selectOption").value;
+    const error = document.getElementById("error2");
+    const image = document.getElementById("resultImage");
+    const selectBox = document.getElementById("selectOption");
+    continueBtn.classList.add("hidden");
+    error.innerText = "";
+    image.style.display = "none";
+
+    error.innerText = "";
+    image.style.display = "none";
+
+    // ===== ĐÚNG =====
+   if(value === "khac"){
+    error.innerText = "sao a giấu kỹ thế mà e cũng biết";
+    image.src = "./image/deptrai.jpg";
+    image.style.display = "block";
+    continueBtn.classList.remove("hidden");
+    // hiệu ứng đúng
+  document.body.classList.add("bg-success");
+    selectBox.classList.add("success-effect");
+
+    setTimeout(()=>{
+       document.body.classList.remove("bg-success");
+        selectBox.classList.remove("success-effect");
+
+        // hiện nút tiếp tục thay vì tự chuyển màn
+        document.getElementById("continueBtn").classList.remove("hidden");
+
+    },1500); // đúng nháy 1.5s
+}
+    // ===== SAI =====
+    else if(value === "idol" || value === "crush" || value === "ban"){
+
+        if(value === "idol"){
+            error.innerText = "biết ngay sẽ có ngày hôm nay";
+            image.src = "./image/hqh.jpg";
+        }
+        else if(value === "crush"){
+            error.innerText = "hãy nói với a là chọn nhầm đi";
+            image.src = "./image/hongty.jpg";
+        }
+        else{
+            error.innerText = "not today bro";
+            image.src = "./image/buidoi.jpg";
+        }
+
+        image.style.display = "block";
+
+        selectBox.classList.add("error-effect");
+        document.body.classList.add("bg-error");
+
+        setTimeout(()=>{
+            selectBox.classList.remove("error-effect");
+            document.body.classList.remove("bg-error");
+        },2000);
+    }
+}// Hiệu ứng tim bay
+function startHearts(){
+    setInterval(()=>{
+        const heart = document.createElement("div");
+        heart.className="floating-heart";
+        heart.innerText="❤️";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.fontSize=(20+Math.random()*30)+"px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),4000);
+    },300);
+}
+// ===== INTRO CINEMATIC =====
+const introMessage = "💖 Bí Mật Đặc Biệt 8/3 💖";
+const introText = document.getElementById("introText");
+const intro = document.getElementById("intro");
+
+let index = 0;
+
+function typeEffect(){
+    if(index < introMessage.length){
+        introText.innerHTML += introMessage.charAt(index);
+        index++;
+        setTimeout(typeEffect, 80);
+    }
+}
+function openEnvelope(){
+document.querySelector(".wrapper").classList.toggle("open");
+}
+
+typeEffect();
+function openLetterAgain(){
+    document.getElementById("letterPopup").classList.remove("hidden");
+
+    const envelope = document.querySelector(".envelope-wrapper");
+    envelope.classList.remove("flap");
+}
+
+// Sau 4 giây thì biến mất intro
+setTimeout(()=>{
+    intro.classList.add("fade-out");
+},4000);
+const canvas = document.getElementById("firework");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+let animationId;
+
+function createFirework(x,y){
+
+    for(let i=0;i<80;i++){
+
+        const angle = Math.random()*Math.PI*2;
+        const speed = Math.random()*6+2;
+
+        particles.push({
+            x:x,
+            y:y,
+            vx:Math.cos(angle)*speed,
+            vy:Math.sin(angle)*speed,
+            life:60
+        });
+    }
+}
+
+function updateFirework(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach((p,index)=>{
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        p.vy += 0.05; // gravity
+        p.life--;
+
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,3,0,Math.PI*2);
+        ctx.fillStyle = "hsl("+Math.random()*360+",100%,60%)";
+        ctx.fill();
+
+        if(p.life <= 0){
+            particles.splice(index,1);
+        }
+
+    });
+
+    if(particles.length > 0){
+        animationId = requestAnimationFrame(updateFirework);
+    }
+}
+
+function startFirework(){
+
+    const letter = document.querySelector(".letter");
+    const rect = letter.getBoundingClientRect();
+
+    const x = rect.left + rect.width/2;
+    const y = rect.top + rect.height/2;
+
+    createFirework(x,y);
+    updateFirework();
+
+}
+
+function stopFirework(){
+
+    cancelAnimationFrame(animationId);
+    particles = [];
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+}
+function openLetter(){
+
+    const envelope = document.querySelector(".envelope-wrapper");
+
+    envelope.classList.add("flap");
+
+     startFirework();
+}
+function closeLetter(){
+
+    const popup = document.getElementById("letterPopup");
+    const envelope = document.querySelector(".envelope-wrapper");
+
+    popup.classList.add("hidden");   // tắt popup
+    envelope.classList.remove("flap"); // đóng thư
+
+    stopFirework(); // tắt pháo hoa
+}
+function toggleMusic(){
+
+    const music = document.getElementById("bgMusic");
+    const btn = document.getElementById("musicBtn");
+
+    if(music.paused){
+        music.play();
+        btn.innerText = "🔊 Pause Music";
+    }else{
+        music.pause();
+        btn.innerText = "🔇 Play Music";
+    }
+
+}
+updateLoveTime();
+</script>
+<!-- ===== POPUP THƯ 8/3 ===== -->
+<div id="letterPopup" class="letter-popup hidden">
+  <div class="envelope-wrapper" >
+      <div class="envelope">
+          <div class="letter">
+              <div class="text">
+                  <strong>💖 Gửi Em 💖</strong>
+                  <p>
+                      Cảm ơn em đã xuất hiện trong cuộc đời anh.<br><br>
+                      Chúc em 8/3 thật hạnh phúc,
+                      luôn xinh đẹp và mãi là cô gái đặc biệt nhất ❤️
+                  </p>
+		<br>
+                  <button class="close-btn" onclick="closeLetter()">Đóng thư</button>
+              </div>
+          </div>
+      </div>
+      <div class="heart"></div>
+  </div>
+</div>
+<audio id="bgMusic" loop>
+  <source src="./music/nhac.mp3" type="audio/mpeg">
+</audio>
+<button id="musicBtn" onclick="toggleMusic()" 
+style="
+position:fixed;
+top:70px;
+right:20px;
+z-index:2000;
+background:#ff4d88;
+color:white;
+padding:10px 15px;
+border-radius:20px;
+border:none;
+font-weight:bold;
+cursor:pointer;
+">
+🔊 Pause Music
+</button>
+</body>
+</html>
