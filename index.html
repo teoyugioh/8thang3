@@ -516,7 +516,7 @@ button:hover{
         
         <!-- VIDEO -->
         <video controls class="video-love">
-            <source src="teo.mp4" type="video/mp4">
+            <source src="image/teo.mp4" type="video/mp4">
         </video>
 
         <!-- TEXT -->
@@ -535,12 +535,12 @@ button:hover{
 </button>
         <div class="image-grid">
         <!-- ẢNH -->
-        <img src="meo.jpg" class="love-img">
-        <img src="meo2.jpg" class="love-img">
-        <img src="meo3.jpg" class="love-img">
-        <img src="meo4.jpg" class="love-img">
-        <img src="meo5.jpg" class="love-img">
-        <img src="meo6.jpg" class="love-img">
+        <img src="image/meo.jpg" class="love-img">
+        <img src="image/meo2.jpg" class="love-img">
+        <img src="image/meo3.jpg" class="love-img">
+        <img src="image/meo4.jpg" class="love-img">
+        <img src="image/meo5.jpg" class="love-img">
+        <img src="image/meo6.jpg" class="love-img">
     </div>
 
 </div>
@@ -666,7 +666,7 @@ function checkSelect(){
     // ===== ĐÚNG =====
    if(value === "khac"){
     error.innerText = "sao a giấu kỹ thế mà e cũng biết";
-    image.src = "deptrai.jpg";
+    image.src = "image/deptrai.jpg";
     image.style.display = "block";
     continueBtn.classList.remove("hidden");
     // hiệu ứng đúng
@@ -687,15 +687,15 @@ function checkSelect(){
 
         if(value === "idol"){
             error.innerText = "biết ngay sẽ có ngày hôm nay";
-            image.src = "hqh.jpg";
+            image.src = "image/hqh.jpg";
         }
         else if(value === "crush"){
             error.innerText = "hãy nói với a là chọn nhầm đi";
-            image.src = "hongty.jpg";
+            image.src = "image/hongty.jpg";
         }
         else{
             error.innerText = "not today bro";
-            image.src = "buidoi.jpg";
+            image.src = "image/buidoi.jpg";
         }
 
         image.style.display = "block";
@@ -879,7 +879,7 @@ updateLoveTime();
   </div>
 </div>
 <audio id="bgMusic" loop>
-  <source src="nhac.mp3" type="audio/mpeg">
+  <source src="music/nhac.mp3" type="audio/mpeg">
 </audio>
 <button id="musicBtn" onclick="toggleMusic()" 
 style="
