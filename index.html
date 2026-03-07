@@ -13,6 +13,45 @@
     box-shadow:0 0 20px rgba(0,0,0,0.4);
     animation:pop 0.5s ease;
 }
+.scratch-popup h2{
+color:#ff4d6d;
+font-weight:bold;
+text-shadow:0 0 10px rgba(255,77,109,0.5);
+}
+
+.scratch-popup{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+padding:25px;
+border-radius:15px;
+text-align:center;
+z-index:999;
+}
+
+.scratch-card{
+position:relative;
+width:300px;
+margin:auto;
+}
+
+.gift-img{
+width:100%;
+border-radius:10px;
+}
+
+#scratchCanvas{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+border-radius:10px;
+cursor:pointer;
+}
+
 #viewNoteBtn{
 position:fixed;
 top:170px;
@@ -140,8 +179,9 @@ background:#000;
     z-index:9999;
 }
 
+.gift-btn,
 .close-btn{
-    position:absolute;
+  
     margin-top:15px;
     padding:8px 18px;
     border:none;
@@ -649,7 +689,7 @@ button:hover{
 
 <div id="quiz2"  class="hidden">
 
-<h2>Câu hỏi mở hãy trả lời theo ý của mình</h2>
+<h2>Tên 1 người mà bạn biết</h2>
 
 <button onclick="choose(1)">Không muốn trả lời nữa</button>
 <button onclick="choose(2)">Trở về vạch xuất phát</button>
@@ -780,7 +820,7 @@ location.reload();
 
 else if(option === 3){
 
-alert("Đúng rồi 😎");
+alert("Em tìm anh à ?");
 document.getElementById("quiz2").classList.add("hidden");
 document.getElementById("step2").classList.remove("hidden");}
 
@@ -1069,6 +1109,7 @@ function openLetter(){
 
      startFirework();
 }
+
 function closeLetter(){
 
     const popup = document.getElementById("letterPopup");
@@ -1078,7 +1119,53 @@ function closeLetter(){
     envelope.classList.remove("flap"); 
 
     stopFirework(); 
+
 }
+function openScratch(){
+    document.getElementById("scratchPopup").classList.remove("hidden");
+    initScratch();
+}
+
+function closeScratch(){
+    document.getElementById("scratchPopup").classList.add("hidden");
+}
+
+function initScratch(){
+
+const canvas = document.getElementById("scratchCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = canvas.offsetWidth;
+canvas.height = canvas.offsetHeight;
+
+ctx.fillStyle = "#bfbfbf"; // lớp bạc
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+let scratching = false;
+
+canvas.addEventListener("mousedown",()=> scratching=true);
+canvas.addEventListener("mouseup",()=> scratching=false);
+
+canvas.addEventListener("mousemove",(e)=>{
+if(!scratching) return;
+
+const rect = canvas.getBoundingClientRect();
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+
+ctx.globalCompositeOperation = "destination-out";
+ctx.beginPath();
+ctx.arc(x,y,20,0,Math.PI*2);
+ctx.fill();
+
+});
+
+}
+
+
+
+
+
 function toggleMusic(){
 
     const music = document.getElementById("bgMusic");
@@ -1095,7 +1182,6 @@ function toggleMusic(){
 }
 updateLoveTime();
 </script>
-<!-- ===== POPUP THƯ 8/3 ===== -->
 <div id="letterPopup" class="letter-popup hidden">
   <div class="envelope-wrapper" >
       <div class="envelope">
@@ -1104,9 +1190,9 @@ updateLoveTime();
                   <strong>💖 Gửi Em 💖</strong>
                   <p>
                       8/3 <br>
-                      Chúc em thật hạnh phúc, luôn xinh đẹp và yêu đời 
+                      Chúc em thật hạnh phúc, luôn sing đẹp và yêu đời 
 			 <br>
-		      This too shall pass <3 Hoa a để 
+		      This too shall pass <3 Hoa a để trong tủ quần áo
 		      <br><br><br>
 		      Tèo
                   </p>
@@ -1146,10 +1232,25 @@ cursor:pointer;
         <p>
        A mất khoảng 3 ngày x 8 tiếng để làm xong 1 trang web nhỏ này, Ban đầu a dự kiến không lâu như vậy,  
        nhưng càng làm lại càng muốn thêm nhiều thứ hơn: hiệu ứng, ảnh, nhạc, pháo hoa,...tổng cộng 1200 dòng code hy vọng em enjoy nó
-       và đừng quên đưa ra ý kiến để có những trải nghiệm tốt hơn sau này, nếu e muốn thử lại nhiều lựa chọn khác có thể nhập tên nhanh bằng chữ "a"<br><br><br><br>
-       Cảm ơn Nhung đã hỗ trợ để kế hoạch của a hoàn thành trọn vẹn        <button class="close-btn" onclick="closeNote()">Đóng</button>
+       và đừng quên đưa ra ý kiến để có những trải nghiệm tốt hơn sau này, nếu e muốn thử lại nhiều lựa chọn khác có thể nhập tên nhanh bằng chữ "a"<br><br><br>
+       Cảm ơn bác Nhung đã hỗ trợ nhiều , tặng bác cái thẻ cào nạp chơi (cú pháp *100*mathe#)
+<div class="note-buttons">
+ <button class="gift-btn" onclick="openScratch()">🎁 Nhận quà</button>
+ <button class="close-btn" onclick="closeNote()">Đóng</button>
+</div>
     </div>
+<div id="scratchPopup" class="scratch-popup hidden">
+  
+  <h2>🎁 Cào để nhận quà</h2>
 
+  <div class="scratch-card">
+      <img src="./image/the.jpg" class="gift-img">
+      <canvas id="scratchCanvas"></canvas>
+  </div>
+
+  <button onclick="closeScratch()">Đóng</button>
+
+</div>
 </div>
 </body>
 </html>
