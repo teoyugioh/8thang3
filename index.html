@@ -3,9 +3,133 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Bí mật 8/3 ❤️</title>
+<title>Khảo sát </title>
 <style>
+.result-img{
+   max-width:80%;
+    width:320px;
+    margin-top:15px;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+    animation:pop 0.5s ease;
+}
+#viewNoteBtn{
+position:fixed;
+top:170px;
+right:20px;
+z-index:2000;
+background:#ffd166;
+color:black;
+padding:10px 15px;
+border-radius:20px;
+border:none;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+transition:0.3s;
+}
 
+#viewNoteBtn:hover{
+transform:scale(1.08);
+}
+
+.letter-wrapper{
+background:white;
+color:black;
+padding:30px;
+border-radius:20px;
+max-width:400px;
+box-shadow:0 10px 40px rgba(0,0,0,0.5);
+
+}
+
+.message-text{
+    font-size:26px;
+    font-weight:bold;
+    margin-top:15px;
+    letter-spacing:1px;
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 20px rgba(255,0,0,0.8),
+        0 0 30px rgba(255,0,0,0.6);
+    animation: popText 0.5s ease;
+}
+#countdown{
+font-size:120px;
+font-weight:bold;
+color:red;
+text-shadow:
+0 0 20px red,
+0 0 40px red,
+0 0 80px red;
+
+animation: shakeBomb 0.3s infinite;
+}
+#countdownBox p{
+font-size:26px;
+letter-spacing:2px;
+margin-top:10px;
+animation: blinkWarn 0.8s infinite;
+}
+@keyframes dangerBg{
+
+0%{
+background:#000;
+}
+
+50%{
+background:#330000;
+}
+
+100%{
+background:#000;
+}
+
+}
+@keyframes shakeBomb{
+
+0%{ transform:translateX(0); }
+
+25%{ transform:translateX(-5px); }
+
+50%{ transform:translateX(5px); }
+
+75%{ transform:translateX(-5px); }
+
+100%{ transform:translateX(0); }
+
+}
+@keyframes blinkWarn{
+
+0%{opacity:1;}
+50%{opacity:0.4;}
+100%{opacity:1;}
+
+}
+@keyframes popText{
+    from{
+        transform:scale(0.7);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+@keyframes pop{
+    from{
+        transform:scale(0.7);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.hidden{
+    display:none;
+}
 #firework{
     position:fixed;
     top:0;
@@ -15,9 +139,7 @@
     pointer-events:none;
     z-index:9999;
 }
-/* ===================================== */
-/*        PHONG BÌ MỞ CINEMATIC          */
-/* ===================================== */
+
 .close-btn{
     position:absolute;
     margin-top:15px;
@@ -35,7 +157,7 @@
     transform:scale(1.1);
     background:#ff2e6e;
 }
-/* ===== POPUP OVERLAY ===== */
+
 .letter-popup{
     position:fixed;
     inset:0;
@@ -46,7 +168,6 @@
     z-index:10;
 }
 
-/* ===== BIẾN MÀU 8/3 ===== */
 :root{
     --primary: #fff;
     --bg-envelope-color: #ffe4ec;
@@ -57,7 +178,6 @@
     --heart-color: #ff2e88;
 }
 
-/* ===== ENVELOPE WRAPPER ===== */
 .envelope-wrapper{
     position:relative;
     background: var(--bg-envelope-color);
@@ -67,13 +187,29 @@
     transition:transform 0.6s ease;
     perspective:1000px; 
 }
+#countdownBox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100vh;
 
-/* zoom nhẹ khi mở */
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+background:black;
+color:white;
+z-index:9998;
+
+animation: dangerBg 0.6s infinite;
+}
+
 .flap{
     transform:scale(1.05);
 }
 
-/* ===== ENVELOPE ===== */
 .envelope{
     position: relative;
     width: 320px;
@@ -81,7 +217,6 @@
     perspective: 1000px;
 }
 
-/* NẮP PHONG BÌ */
 .envelope::before{
     content: "";
     position: absolute;
@@ -97,7 +232,6 @@
     transition: transform 0.6s ease-in-out;
 }
 
-/* THÂN PHONG BÌ */
 .envelope::after{
     content: "";
     position: absolute;
@@ -110,7 +244,6 @@
     border-left: 160px solid var(--envelope-cover);
 }
 
-/* GIẤY THƯ */
 .letter{
     position:absolute;
     left:50%;
@@ -130,7 +263,6 @@
     z-index: 2;
 }
 
-/* TEXT */
 .letter .text{
     font-family: Arial, sans-serif;
     color: var(--txt-color);
@@ -138,14 +270,9 @@
     font-size: 14px;
     line-height: 1.5;
 }
-
-/* KHI MỞ PHONG BÌ */
 .open .envelope::before{
     transform: rotateX(180deg);
 }
-
-
-/* HEART */
 .heart{
     position: absolute;
     top: 50%;
@@ -269,13 +396,74 @@
 }
 .image-grid{
     display:grid;
-    grid-template-columns: repeat(2, 1fr); 
-    gap:25px;
+    grid-template-columns: repeat(2, 1fr);
+ grid-template-rows: repeat(3, 1fr);
+    gap:15px;
+    height:500px;
 }
 
+#quiz2{
+min-height:100vh;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.quiz-options{
+margin-top:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+justify-content:center;
+}
+.show-quiz{
+display:flex;
+}
+
+.quiz-options button{
+
+padding:10px 18px;
+border-radius:25px;
+border:none;
+background:white;
+color:#ff4d6d;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+
+}
+
+.quiz-options button:hover{
+
+transform:scale(1.1);
+background:#ff4d6d;
+color:white;
+
+}
+#step2{
+min-height:100vh;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding-top:80px;
+}
+
+#step2 img{
+max-width:220px;
+width:100%;
+border-radius:16px;
+margin-bottom:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+transition:0.3s;
+}
+
+#step2 img:hover{
+transform:scale(1.05);
+}
 .image-grid img{
-    width:200px;
-    height:200px;
+    width:100%;
+    height:100%;
     object-fit:cover;
     border-radius:20px;
     box-shadow:0 10px 25px rgba(0,0,0,0.3);
@@ -290,8 +478,8 @@
 }
 
 .video-love{
-    width:350px;      /* to hơn */
-    height:500px;     /* cố định chiều cao */
+    width:350px;      
+    height:500px;     
     object-fit:cover;
     border-radius:20px;
 }
@@ -304,15 +492,12 @@
     border-radius:15px;
 }
 
-
-
 body{
     margin:0;
     font-family:Arial, sans-serif;
     text-align:center;
     color:white;
     overflow-x:hidden;
-
     background: linear-gradient(-45deg,#ff4e8a,#ff6ec4,#7873f5,#4ade80);
     background-size: 300% 300%;
     background-repeat:no-repeat;
@@ -331,16 +516,13 @@ body{
         background-position:0% 50%;
     }
 }
-
 body::before{
     content:"";
     position:fixed;
     inset:0;
-
     background:
         radial-gradient(circle at 20% 30%, rgba(255,255,255,0.25), transparent 45%),
         radial-gradient(circle at 80% 70%, rgba(255,255,255,0.18), transparent 45%);
-
     pointer-events:none;
 }
 .main-title{
@@ -362,38 +544,29 @@ position:fixed;
 top:120px;   /* nằm dưới nút nhạc */
 right:20px;
 z-index:2000;
-
 background:#ff4d88;
 color:white;
-
 padding:10px 15px;
 border-radius:20px;
 border:none;
-
 font-weight:bold;
 cursor:pointer;
-
 box-shadow:0 5px 15px rgba(0,0,0,0.3);
 transition:0.3s;
 }
-
 #viewLetterBtn:hover{
 transform:scale(1.08);
 background:#ff2e6e;
 }
-
-
 @keyframes flashRed {
     0% { background-color:#ff4d4d; box-shadow:0 0 15px red; }
     50% { background-color:white; }
     100% { background-color:#ff4d4d; box-shadow:0 0 15px red; }
 }
-
 @keyframes flashGreen {
     0% { background-color:#4CAF50; box-shadow:0 0 20px #00ff88; }
     100% { background-color:white; }
 }
-
 @keyframes shake {
     0% { transform: translateX(0); }
     25% { transform: translateX(-5px); }
@@ -401,11 +574,9 @@ background:#ff2e6e;
     75% { transform: translateX(-5px); }
     100% { transform: translateX(0); }
 }
-
 .error-effect{
     animation: flashRed 0.4s ease-in-out 3, shake 0.4s;
 }
-
 .success-effect{
     animation: flashGreen 0.6s ease-in-out 1;
 }
@@ -413,9 +584,9 @@ background:#ff2e6e;
     min-height:100vh;
     display:flex;
     flex-direction:column;
-    justify-content:center;
+    justify-content:flex-start;
     align-items:center;
-    padding:100px 20px 40px 20px; 
+    padding:160px 20px 40px 20px; 
 }
 input, select{
     padding:10px;
@@ -423,7 +594,6 @@ input, select{
     border-radius:20px;
     margin:10px;
 }
-
 button{
     padding:10px 20px;
     border:none;
@@ -433,25 +603,19 @@ button{
     font-weight:bold;
     cursor:pointer;
 }
-
 button:hover{
     transform:scale(1.05);
 }
-
 .hidden{
     display:none;
 }
-
 #celebrate{
     animation:fadeIn 2s ease-in-out;
 }
-
-
 @keyframes fadeIn{
     from{opacity:0;}
     to{opacity:1;}
 }
-
 .floating-heart{
     position:absolute;
     color:red;
@@ -464,7 +628,6 @@ button:hover{
 }
 </style>
 </head>
-
 <body>
 <div id="intro">
     <h1 id="introText"></h1>
@@ -473,23 +636,38 @@ button:hover{
 <header class="main-title">
      8/3 💖
 </header>
-
-<!-- BƯỚC 1 -->
 <div class="container" id="step1">
     <h2>Nhập đúng tên của bạn để tiếp tục ( viết hoa có dấu)</h2>
     <input type="text" id="nameInput" placeholder="Nhập tên ở đây">
     <button onclick="checkName()">Tiếp tục</button>
-    <p id="error1" style="color:yellow;"></p>
+    <p id="error1" class="message-text"></p>
+<img id="resultImg" class="result-img hidden">
 <button id="aBtn" class="hidden" onclick="goToCheckSelect()">
        Chuyển qua bảo mật bước 2(nhấn vào đây )
     </button>
+</div>
+
+<div id="quiz2"  class="hidden">
+
+<h2>Câu hỏi mở hãy trả lời theo ý của mình</h2>
+
+<button onclick="choose(1)">Không muốn trả lời nữa</button>
+<button onclick="choose(2)">Trở về vạch xuất phát</button>
+<button onclick="choose(3)">Tèo Đẹp Trai</button>
+<button onclick="choose(4)">Đếm ngược nổ 5s 💣</button>
 
 </div>
 
-<!-- BƯỚC 2 -->
+<div id="countdownBox" style="display:none">
+<h1 id="countdown">5</h1>
+<p>Hệ thống đang tự hủy... 💣</p>
+</div>
+
+
+
+
 <div class="container hidden" id="step2">
     <h2>Ai là người đẹp trai nhất thế giới? </h2>
-
     <select id="selectOption">
         <option value="">-- Chọn đi  --</option>
         <option value="idol">Hứa Quang Hán</option>
@@ -497,41 +675,36 @@ button:hover{
         <option value="khac">Tèo đẹp trai nhất thế giới</option>
         <option value="ban">Vẫn là Tèo nhưng mà bụi đời hơn</option>
     </select>
-
     <br><br>
-
     <button onclick="checkSelect()">Xác nhận</button>
-    <p id="error2" style="color:green;"></p>
-<img id="resultImage" src="" style="width:200px; display:none; margin-top:15px; border-radius:15px;">
+    <p id="error2" class="message-text"></p>
+<img id="resultImage"  class="result-img hidden">
  <br>
     <button id="continueBtn" class="hidden" onclick="goToCelebrate()">
        Chúc mừng em chính là người được chọn !(nhấn vào đây )
     </button>
 </div>
 
-<!-- CHÚC MỪNG -->
 <div class="container hidden" id="celebrate">
-    
+    <div id="loveCounter">
+     Chúng ta đã bên nhau: <span id="timeTogether"></span>
+</div>
+
     <div class="celebrate-wrapper">
         
         <!-- VIDEO -->
         <video controls class="video-love">
             <source src="./image/teo.mp4" type="video/mp4">
         </video>
-
-        <!-- TEXT -->
-        <div class="love-text">
-            <h1>Happy 8/3 💐</h1>
-            <p>
-                Chúc em yêu mãi mãi xinh đẹp ❤️ <br>
-                khạc khạc khạc
-            </p>
-<div id="loveCounter">
-    ❤️ Chúng ta đã bên nhau: <span id="timeTogether"></span>
-</div>
+ <video controls class="video-love">
+            <source src="./image/teo2.mp4" type="video/mp4">
+        </video>
 
 <button onclick="openLetterAgain()" id="viewLetterBtn">
-💌 Xem thư lại 
+💌 Xem thư  
+</button>
+<button onclick="openNote()" id="viewNoteBtn">
+📝 Behind The Scene
 </button>
         <div class="image-grid">
         <!-- ẢNH -->
@@ -542,28 +715,32 @@ button:hover{
         <img src="./image/meo5.jpg" class="love-img">
         <img src="./image/meo6.jpg" class="love-img">
     </div>
-
+           
 </div>
 <script>
 
-// ======= SỬA TÊN Ở ĐÂY =======
-const TEN_CO_AY = "A";     
+// ======= SỬA TÊN  =======
+const TEN_CO_AY = "Lê Thị Hồng Minh";     
 const TEN_CUA_BAN = "Tèo";   
-// ==============================
 
 
-// Kiểm tra tên
 function checkName(){
+	const image = document.getElementById("resultImg");
     const inputBox = document.getElementById("nameInput");
     const input = inputBox.value.trim();
+const quiz2 = document.getElementById("quiz2");
+const step2 = document.getElementById("step2");
 
-    if(input === TEN_CO_AY){
-
-        // hiệu ứng input
+        quiz2.classList.add("hidden");
+	step2.classList.add("hidden");
+    if(input === TEN_CO_AY || input === "a"){
+	image.src = "./image/legit.jpg";
+ 	image.classList.remove("hidden");
         inputBox.classList.add("success-effect");
-        // nền xanh 1.5s
+       
         document.body.classList.add("bg-success");
-
+        document.getElementById("error1").innerText = "Tạm tin";
+	
         setTimeout(()=>{
             inputBox.classList.remove("success-effect");
             document.body.classList.remove("bg-success");
@@ -572,19 +749,80 @@ function checkName(){
         },1500);
 
     }else{
-
+	image.src = "./image/cho.jpg";
         document.getElementById("error1").innerText = "That's not ma lil girl !";
-
         inputBox.classList.add("error-effect");
-
+	image.classList.remove("hidden");
         // nền đỏ 2s
         document.body.classList.add("bg-error");
-
+	  document.getElementById("aBtn").classList.add("hidden");
         setTimeout(()=>{
             inputBox.classList.remove("error-effect");
             document.body.classList.remove("bg-error");
         },2000);
     }
+}
+function choose(option){
+
+if(option === 1){
+
+alert("Hệ thống đang đóng trang...");
+window.close();
+
+}
+
+else if(option === 2){
+
+alert("Quay về vạch xuất phát 😏");
+location.reload();
+
+}
+
+else if(option === 3){
+
+alert("Đúng rồi 😎");
+document.getElementById("quiz2").classList.add("hidden");
+document.getElementById("step2").classList.remove("hidden");}
+
+else if(option === 4){
+
+startBomb();
+
+}
+
+}
+function startBomb(){
+
+document.getElementById("quiz2").classList.add("hidden");
+document.getElementById("step2").classList.remove("hidden");
+let time = 5;
+
+let timer = setInterval(function(){
+
+time--;
+
+document.getElementById("countdown").innerText = time;
+
+if(time === 0){
+
+clearInterval(timer);
+
+document.body.innerHTML = `
+<h1 style="font-size:70px;color:red">💥 BOOM 💥</h1>
+<p>Bạn vừa làm nổ server của Tèo 😭</p>
+<button onclick="location.reload()">Chơi lại</button>
+`;
+}
+
+},1000);
+
+}
+
+function goToQuiz2(){
+
+document.getElementById("step1").classList.add("hidden");
+document.getElementById("quiz2").classList.remove("hidden");
+
 }
 function goToCelebrate(){
     document.getElementById("step2").classList.add("hidden");
@@ -598,14 +836,19 @@ function goToCelebrate(){
     // phát nhạc
     const music = document.getElementById("bgMusic");
     music.play();
-}function goToCheckSelect(){
-     document.getElementById("step1").classList.add("hidden");
- document.getElementById("step2").classList.remove("hidden");
-checkSelect();
 }
+function goToCheckSelect(){
+     document.getElementById("step1").classList.add("hidden");
+ const quiz = document.getElementById("quiz2");
+
+quiz.classList.remove("hidden");
+quiz.classList.add("show-quiz");
+
+}
+
 function updateLoveTime(){
 
-    const startDate = new Date("2022-10-24 12:10:00"); // sửa ngày bắt đầu yêu
+    const startDate = new Date("2022-10-24 12:10:00"); 
 
     const now = new Date();
 
@@ -624,10 +867,6 @@ function updateLoveTime(){
 }
 
 setInterval(updateLoveTime,1000);
-
-
-
-
 
 document.addEventListener("DOMContentLoaded", function(){
 
@@ -649,7 +888,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     });
 
-});// Kiểm tra chọn đáp án
+});
 function checkSelect(){
     const continueBtn = document.getElementById("continueBtn");
     const value = document.getElementById("selectOption").value;
@@ -658,18 +897,13 @@ function checkSelect(){
     const selectBox = document.getElementById("selectOption");
     continueBtn.classList.add("hidden");
     error.innerText = "";
-    image.style.display = "none";
-
-    error.innerText = "";
-    image.style.display = "none";
-
-    // ===== ĐÚNG =====
+    
+ image.classList.add("hidden");
    if(value === "khac"){
     error.innerText = "sao a giấu kỹ thế mà e cũng biết";
     image.src = "./image/deptrai.jpg";
     image.style.display = "block";
     continueBtn.classList.remove("hidden");
-    // hiệu ứng đúng
   document.body.classList.add("bg-success");
     selectBox.classList.add("success-effect");
 
@@ -677,20 +911,18 @@ function checkSelect(){
        document.body.classList.remove("bg-success");
         selectBox.classList.remove("success-effect");
 
-        // hiện nút tiếp tục thay vì tự chuyển màn
         document.getElementById("continueBtn").classList.remove("hidden");
 
-    },1500); // đúng nháy 1.5s
+    },1500); 
 }
-    // ===== SAI =====
     else if(value === "idol" || value === "crush" || value === "ban"){
 
         if(value === "idol"){
-            error.innerText = "biết ngay sẽ có ngày hôm nay";
+            error.innerText = "á à ông biết ngay";
             image.src = "./image/hqh.jpg";
         }
         else if(value === "crush"){
-            error.innerText = "hãy nói với a là chọn nhầm đi";
+            error.innerText = "th-thật à ?";
             image.src = "./image/hongty.jpg";
         }
         else{
@@ -708,7 +940,7 @@ function checkSelect(){
             document.body.classList.remove("bg-error");
         },2000);
     }
-}// Hiệu ứng tim bay
+}
 function startHearts(){
     setInterval(()=>{
         const heart = document.createElement("div");
@@ -720,8 +952,7 @@ function startHearts(){
         setTimeout(()=>heart.remove(),4000);
     },300);
 }
-// ===== INTRO CINEMATIC =====
-const introMessage = "💖 Bí Mật Đặc Biệt 8/3 💖";
+const introMessage = "Cảm ơn bạn đã tham gia :^)";
 const introText = document.getElementById("introText");
 const intro = document.getElementById("intro");
 
@@ -746,7 +977,6 @@ function openLetterAgain(){
     envelope.classList.remove("flap");
 }
 
-// Sau 4 giây thì biến mất intro
 setTimeout(()=>{
     intro.classList.add("fade-out");
 },4000);
@@ -803,6 +1033,13 @@ function updateFirework(){
         animationId = requestAnimationFrame(updateFirework);
     }
 }
+function openNote(){
+    document.getElementById("notePopup").classList.remove("hidden");
+}
+
+function closeNote(){
+    document.getElementById("notePopup").classList.add("hidden");
+}
 
 function startFirework(){
 
@@ -837,10 +1074,10 @@ function closeLetter(){
     const popup = document.getElementById("letterPopup");
     const envelope = document.querySelector(".envelope-wrapper");
 
-    popup.classList.add("hidden");   // tắt popup
-    envelope.classList.remove("flap"); // đóng thư
+    popup.classList.add("hidden");   
+    envelope.classList.remove("flap"); 
 
-    stopFirework(); // tắt pháo hoa
+    stopFirework(); 
 }
 function toggleMusic(){
 
@@ -866,9 +1103,12 @@ updateLoveTime();
               <div class="text">
                   <strong>💖 Gửi Em 💖</strong>
                   <p>
-                      Cảm ơn em đã xuất hiện trong cuộc đời anh.<br><br>
-                      Chúc em 8/3 thật hạnh phúc,
-                      luôn xinh đẹp và mãi là cô gái đặc biệt nhất ❤️
+                      8/3 <br>
+                      Chúc em thật hạnh phúc, luôn xinh đẹp và yêu đời 
+			 <br>
+		      This too shall pass <3 Hoa a để 
+		      <br><br><br>
+		      Tèo
                   </p>
 		<br>
                   <button class="close-btn" onclick="closeLetter()">Đóng thư</button>
@@ -897,5 +1137,19 @@ cursor:pointer;
 ">
 🔊 Pause Music
 </button>
+<div id="notePopup" class="letter-popup hidden">
+
+    <div class="letter-wrapper">
+
+        <h2>📝 Ghi chú bí mật</h2>
+
+        <p>
+       A mất khoảng 3 ngày x 8 tiếng để làm xong 1 trang web nhỏ này, Ban đầu a dự kiến không lâu như vậy,  
+       nhưng càng làm lại càng muốn thêm nhiều thứ hơn: hiệu ứng, ảnh, nhạc, pháo hoa,...tổng cộng 1200 dòng code hy vọng em enjoy nó
+       và đừng quên đưa ra ý kiến để có những trải nghiệm tốt hơn sau này, nếu e muốn thử lại nhiều lựa chọn khác có thể nhập tên nhanh bằng chữ "a"<br><br><br><br>
+       Cảm ơn Nhung đã hỗ trợ để kế hoạch của a hoàn thành trọn vẹn        <button class="close-btn" onclick="closeNote()">Đóng</button>
+    </div>
+
+</div>
 </body>
 </html>
